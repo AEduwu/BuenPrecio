@@ -1,3 +1,38 @@
+
+
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+<ion-menu contentId="main-content" menuId="mainMenu" side="start">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item 
+        routerLink="/home" 
+        routerDirection="root" 
+        (click)="closeMenu()">Principal</ion-item>
+
+      <ion-item 
+        routerLink="/add-product" 
+        routerDirection="root" 
+        (click)="closeMenu()">Crear oferta</ion-item>
+
+      <ion-item 
+        routerLink="/my-products" 
+        routerDirection="root" 
+        (click)="closeMenu()">Mis ofertas</ion-item>
+
+      <ion-item 
+        routerLink="/supported-pages" 
+        routerDirection="root" 
+        (click)="closeMenu()">Afiliados</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-router-outlet></ion-router-outlet>
+  </div>
 </ion-app>

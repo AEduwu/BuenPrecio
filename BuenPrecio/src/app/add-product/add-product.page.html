@@ -1,13 +1,59 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>add-product</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="mainMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Crear oferta</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">add-product</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+<div class="card-container">
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Agregar oferta</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+
+    <ion-item class="input-item">
+      <ion-label position="floating">Titulo</ion-label>
+      <ion-input [(ngModel)]="newProduct.name" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-label position="floating">Precio</ion-label>
+      <ion-input [(ngModel)]="newProduct.price" type="number"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-label position="floating">Direccion</ion-label>
+      <ion-input [(ngModel)]="newProduct.address" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-label position="floating">Descripcion</ion-label>
+      <ion-textarea [(ngModel)]="newProduct.description" auto-grow="true"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-label>Imagen</ion-label>
+      <input type="file" (change)="onImageSelected($event)" accept="image/*" />
+    </ion-item>
+
+    <div *ngIf="imagePreview" style="text-align: center; margin-top: 10px;">
+      <img [src]="imagePreview" alt="Preview" style="max-width: 100%; border-radius: 10px;" />
+    </div>
+
+    <ion-button expand="block" class="register-button" (click)="saveProduct()">
+      Publicar oferta
+    </ion-button>
+
+  </ion-card-content>
+</ion-card>
+
+</div>
+
 </ion-content>

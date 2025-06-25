@@ -1,13 +1,73 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+<div class="card-container">
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Registro</ion-card-title>
+      <ion-card-subtitle>Ingresa tus datos</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+
+       <ion-item class="input-item">
+          <ion-label position="floating">Correo</ion-label>
+          <ion-input  [(ngModel)]="email" type="email"></ion-input>
+        </ion-item>
+
+       <ion-item class="input-item">
+          <ion-label position="floating">Nombre y apellido</ion-label>
+          <ion-input  [(ngModel)]="fullname" type="fullname"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input [(ngModel)]="password" type="password"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="floating">Confirmar contraseña</ion-label>
+          <ion-input [(ngModel)]="confirmPassword" type="password"></ion-input>
+        </ion-item>
+
+<ion-item class="select-item">
+  <ion-label>Región</ion-label>
+  <ion-select [(ngModel)]="region" placeholder="Selecciona una región">
+    <ion-select-option value="option1">Arica y Parinacota</ion-select-option>
+    <ion-select-option value="option2">Tarapacá</ion-select-option>
+    <ion-select-option value="option3">Antofagasta</ion-select-option>
+    <ion-select-option value="option4">Atacama</ion-select-option>
+    <ion-select-option value="option5">Coquimbo</ion-select-option>
+    <ion-select-option value="option6">Valparaíso</ion-select-option>
+    <ion-select-option value="option7">Metropolitana</ion-select-option>
+    <ion-select-option value="option8">O'Higgins</ion-select-option>
+    <ion-select-option value="option9">Maule</ion-select-option>
+    <ion-select-option value="option10">Ñuble</ion-select-option>
+    <ion-select-option value="option11">Biobío</ion-select-option>
+    <ion-select-option value="option12">La Araucanía</ion-select-option>
+    <ion-select-option value="option13">Los Ríos</ion-select-option>
+    <ion-select-option value="option14">Los Lagos</ion-select-option>
+    <ion-select-option value="option15">Aysén del General Carlos Ibáñez del Campo</ion-select-option>
+    <ion-select-option value="option16">Magallanes y de la Antártica Chilena</ion-select-option>
+  </ion-select>
+</ion-item>
+
+        <div *ngIf="errorMsg" style="color: red; margin-bottom: 10px;">
+          {{ errorMsg }}
+        </div>
+        <div *ngIf="successMsg" style="color: green; margin-bottom: 10px;">
+          {{ successMsg }}
+        </div>
+
+        <ion-button class="register-button" (click)="register()">Ingresar</ion-button>
+
+        <ion-button class="clean-button" (click)="clearFields()">Limpiar campos</ion-button>
+
+  </ion-card-content>
+</ion-card>
+
+</div>
+
 </ion-content>

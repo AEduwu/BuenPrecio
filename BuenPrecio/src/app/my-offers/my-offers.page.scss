@@ -1,0 +1,41 @@
+ion-content {
+  --background: linear-gradient(to bottom right, #1a237e, #00bcd4);
+}
+
+.product-list {
+  background: transparent;
+
+  ion-item {
+    --background: #ffffffdd;
+    border-radius: 2vw;
+    margin-bottom: 3vw;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2vw;
+
+    ion-thumbnail {
+      border-radius: 2vw;
+      overflow: hidden;
+      width: 60px;
+      height: 60px;
+    }
+
+    ion-label {
+      h2 {
+        font-size: 4.5vw;
+        color: #0077b6;
+        margin: 0;
+      }
+
+      p {
+        font-size: 3.5vw;
+        margin: 0.3vw 0;
+        color: #003f5c;
+
+        &.price {
+          color: #0096c7;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
