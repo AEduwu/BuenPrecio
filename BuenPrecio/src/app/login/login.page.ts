@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { DbserviceService } from '../dbservice.service';
 
 @Component({
   selector: 'app-login',
@@ -7,43 +8,37 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
   standalone: false,
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
 
   email: string = '';
   password: string = '';
   errorMsg: string = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private dbService: DbserviceService
+  ) {}
 
-  ngOnInit() {}
-
-  login() {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const password = this.password;
-
-    if (!emailRegex.test(this.email)) {
-      this.errorMsg = 'Ingrese un email válido.';
-      return;
-    }
-
-    if (
-      password.length < 4 ||
-      password.length > 8 ||
-      !/[A-Z]/.test(password) ||
-      !/[a-z]/.test(password) ||
-      !/[0-9]/.test(password)
-    ) {
-      this.errorMsg =
-        'La contraseña debe tener entre 4 y 8 caracteres, incluir al menos una letra mayúscula, una minúscula y un número.';
-      return;
-    }
-
+  async login() {
     this.errorMsg = '';
-    this.router.navigateByUrl('/home');
+
+    if (!this.email || !this.password) {
+      this.errorMsg = 'Por favor completa todos los campos.';
+      return;
+    }
+
+    const user = await this.dbService.login(this.email, this.password);
+
+    if (user) {
+      console.log('Usuario autenticado:', user);
+
+      this.router.navigateByUrl('/home');
+    } else {
+      this.errorMsg = 'Correo o contraseña incorrectos.';
+    }
   }
 
-    goToRegister() {
+  goToRegister() {
     this.router.navigateByUrl('/register');
   }
-
 }

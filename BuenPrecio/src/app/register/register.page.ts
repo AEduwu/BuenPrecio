@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { DbserviceService } from '../dbservice.service';
 
 @Component({
   selector: 'app-register',
@@ -17,52 +18,64 @@ export class RegisterPage {
   errorMsg: string = '';
   successMsg: string = '';
 
-  constructor(private router: Router) {}
+constructor(private router: Router, private dbService: DbserviceService) {}
 
-  register() {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+async register() {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    this.errorMsg = '';
-    this.successMsg = '';
+  this.errorMsg = '';
+  this.successMsg = '';
 
-    if (!emailRegex.test(this.email)) {
-      this.errorMsg = 'Por favor ingresa un correo válido.';
-      return;
-    }
+  if (!emailRegex.test(this.email)) {
+    this.errorMsg = 'Por favor ingresa un correo válido.';
+    return;
+  }
 
-    if (!this.fullname.trim()) {
-      this.errorMsg = 'El nombre no puede estar vacío.';
-      return;
-    }
+  if (!this.fullname.trim()) {
+    this.errorMsg = 'El nombre no puede estar vacío.';
+    return;
+  }
 
-    if (
-      this.password.length < 4 ||
-      this.password.length > 8 ||
-      !/[A-Z]/.test(this.password) ||
-      !/[a-z]/.test(this.password) ||
-      !/[0-9]/.test(this.password)
-    ) {
-      this.errorMsg =
-        'La contraseña debe tener entre 4 y 8 caracteres e incluir al menos una mayúscula, una minúscula y un número.';
-      return;
-    }
+  if (
+    this.password.length < 4 ||
+    this.password.length > 8 ||
+    !/[A-Z]/.test(this.password) ||
+    !/[a-z]/.test(this.password) ||
+    !/[0-9]/.test(this.password)
+  ) {
+    this.errorMsg =
+      'La contraseña debe tener entre 4 y 8 caracteres e incluir al menos una mayúscula, una minúscula y un número.';
+    return;
+  }
 
-    if (this.password !== this.confirmPassword) {
-      this.errorMsg = 'Las contraseñas no coinciden.';
-      return;
-    }
+  if (this.password !== this.confirmPassword) {
+    this.errorMsg = 'Las contraseñas no coinciden.';
+    return;
+  }
 
-    if (!this.region) {
-      this.errorMsg = 'Debe seleccionar una región.';
-      return;
-    }
+  if (!this.region) {
+    this.errorMsg = 'Debe seleccionar una región.';
+    return;
+  }
 
+  const regionId = parseInt(this.region);
+
+  const success = await this.dbService.register(
+    this.email,
+    this.password,
+    this.fullname,
+    regionId
+  );
+
+  if (success) {
     this.successMsg = '¡Registro correcto! Redirigiendo al login...';
-
     setTimeout(() => {
       this.router.navigateByUrl('/login');
     }, 2000);
+  } else {
+    this.errorMsg = 'Error al registrar.';
   }
+}
 
   clearFields() {
     this.email = '';
