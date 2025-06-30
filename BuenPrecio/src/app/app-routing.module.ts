@@ -5,7 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
     canActivate: [AuthGuard],
   },
   {
@@ -15,28 +15,33 @@ const routes: Routes = [
   },
   {
     path: 'add-product',
-    loadChildren: () => import('./add-product/add-product.module').then( m => m.AddProductPageModule),
+    loadChildren: () => import('./add-product/add-product.module').then(m => m.AddProductPageModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'my-offers',
-    loadChildren: () => import('./my-offers/my-offers.module').then( m => m.MyOffersPageModule),
+    loadChildren: () => import('./my-offers/my-offers.module').then(m => m.MyOffersPageModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'supported-pages',
-    loadChildren: () => import('./supported-pages/supported-pages.module').then( m => m.SupportedPagesPageModule),
+    loadChildren: () => import('./supported-pages/supported-pages.module').then(m => m.SupportedPagesPageModule),
     canActivate: [AuthGuard],
   },
+  {
+    path: '**',
+    loadChildren: () => import('./not-found/not-found.module').then( m => m.NotFoundPageModule)
+  },
 ];
+
 
 @NgModule({
   imports: [
