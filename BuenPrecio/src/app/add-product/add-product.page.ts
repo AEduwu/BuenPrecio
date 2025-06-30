@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-add-product',
@@ -14,9 +15,9 @@ export class AddProductPage {
     location: '',
     description: '',
     address: '',
+    image: '' 
   };
 
-  selectedImageFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
 
   constructor(private alertController: AlertController) {}
@@ -24,20 +25,31 @@ export class AddProductPage {
   onImageSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.selectedImageFile = file;
-
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result;
+        this.newProduct.image = reader.result as string;
       };
       reader.readAsDataURL(file);
     }
   }
 
-  async saveProduct() {
-    const { name, price, address, description } = this.newProduct;
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera
+    });
 
-    if (!name || price === null || price === undefined || !address || !description || !this.selectedImageFile) {
+    this.imagePreview = image.dataUrl ?? null;
+    this.newProduct.image = image.dataUrl ?? '';
+  }
+
+  async saveProduct() {
+    const { name, price, address, description, image } = this.newProduct;
+
+    if (!name || price == null || !address || !description || !image) {
       await this.showAlert('Por favor, completa todos los campos e incluye una imagen.');
       return;
     }
@@ -46,7 +58,7 @@ export class AddProductPage {
       await this.showAlert('El precio no puede ser negativo.');
       return;
     }
-    
+
     await this.showAlert('Oferta publicada ✅');
 
     this.newProduct = {
@@ -55,8 +67,8 @@ export class AddProductPage {
       location: '',
       description: '',
       address: '',
+      image: ''
     };
-    this.selectedImageFile = null;
     this.imagePreview = null;
   }
 

@@ -19,7 +19,7 @@ export class AppComponent {
       if (event instanceof NavigationEnd) {
         const noMenuPages = ['/login', '/register'];
 
-        if (noMenuPages.includes(event.url)) {
+        if (noMenuPages.some(page => event.url.startsWith(page))) {
           this.menuController.enable(false);
           this.menuController.close();
         } else {
@@ -38,4 +38,9 @@ export class AppComponent {
     await this.menuController.close();
     this.router.navigateByUrl('/login');
   }
+
+  async goHome() {
+  await this.menuController.close();
+  this.router.navigateByUrl('/home', { replaceUrl: true });
+}
 }

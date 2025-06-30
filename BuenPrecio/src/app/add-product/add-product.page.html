@@ -40,7 +40,9 @@
 
     <ion-item class="input-item">
       <ion-label>Imagen</ion-label>
-      <input type="file" (change)="onImageSelected($event)" accept="image/*" />
+      <ion-button expand="block" (click)="takePicture()">
+        Tomar foto
+      </ion-button>
     </ion-item>
 
     <div *ngIf="imagePreview" style="text-align: center; margin-top: 10px;">
