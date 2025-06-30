@@ -20,7 +20,7 @@
         (click)="closeMenu()">Crear oferta</ion-item>
 
       <ion-item 
-        routerLink="/my-products" 
+        routerLink="/my-offers" 
         routerDirection="root" 
         (click)="closeMenu()">Mis ofertas</ion-item>
 
@@ -28,6 +28,9 @@
         routerLink="/supported-pages" 
         routerDirection="root" 
         (click)="closeMenu()">Afiliados</ion-item>
+      <ion-item (click)="logout()">
+        Cerrar sesión
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>

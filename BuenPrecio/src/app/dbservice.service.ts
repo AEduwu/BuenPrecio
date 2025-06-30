@@ -160,5 +160,19 @@ async addOffer(
   }
 }
 
+//Todo lo relacionado al usuario actual
+private currentUser: any = null;
+
+setCurrentUser(user: any) {
+  this.currentUser = user;
+}
+
+getCurrentUser(): any {
+  return this.currentUser;
+}
+
+clearCurrentUser() {
+  this.currentUser = null;
+}
 
 }

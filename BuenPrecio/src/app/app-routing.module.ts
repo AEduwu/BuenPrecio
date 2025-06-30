@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: '',
@@ -13,7 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'add-product',
-    loadChildren: () => import('./add-product/add-product.module').then( m => m.AddProductPageModule)
+    loadChildren: () => import('./add-product/add-product.module').then( m => m.AddProductPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',
@@ -21,7 +24,8 @@ const routes: Routes = [
   },
   {
     path: 'my-offers',
-    loadChildren: () => import('./my-offers/my-offers.module').then( m => m.MyOffersPageModule)
+    loadChildren: () => import('./my-offers/my-offers.module').then( m => m.MyOffersPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'register',
@@ -29,7 +33,8 @@ const routes: Routes = [
   },
   {
     path: 'supported-pages',
-    loadChildren: () => import('./supported-pages/supported-pages.module').then( m => m.SupportedPagesPageModule)
+    loadChildren: () => import('./supported-pages/supported-pages.module').then( m => m.SupportedPagesPageModule),
+    canActivate: [AuthGuard],
   },
 ];
 
