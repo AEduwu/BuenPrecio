@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
+import { GeoService } from '../geo-service.service';
 
 @Component({
   selector: 'app-add-product',
@@ -21,7 +22,7 @@ export class AddProductPage {
 
   imagePreview: string | ArrayBuffer | null = null;
 
-  constructor(private alertController: AlertController) {}
+  constructor(private alertController: AlertController, private geoService: GeoService) {}
 
   async takePicture() {
     const image = await Camera.getPhoto({
@@ -35,16 +36,27 @@ export class AddProductPage {
     this.newProduct.image = image.dataUrl ?? '';
   }
 
-  async getLocation() {
-    try {
-      const coordinates = await Geolocation.getCurrentPosition();
-      const { latitude, longitude } = coordinates.coords;
-      this.newProduct.address = `${latitude}, ${longitude}`;
-    } catch (error) {
-      console.error('Error obteniendo ubicación:', error);
-      await this.showAlert('No se pudo obtener la ubicación. Asegúrate de tener la ubicación activada.');
-    }
+async getLocation() {
+  try {
+      const coordinates = await Geolocation.getCurrentPosition({
+        timeout: 20000,
+        enableHighAccuracy: true
+      });
+    const { latitude, longitude } = coordinates.coords;
+
+    this.geoService.reverseGeocode(latitude, longitude).subscribe({
+      next: (address: string) => {
+        this.newProduct.address = address;
+      },
+      error: async () => {
+        await this.showAlert('Error al convertir la ubicación a dirección.');
+        this.newProduct.address = `${latitude}, ${longitude}`;
+      }
+    });
+  } catch (error) {
+    await this.showAlert('No se pudo obtener la ubicación. Asegúrate de tener la ubicación activada.');
   }
+}
 
   async saveProduct() {
     const { name, price, address, description, image } = this.newProduct;
