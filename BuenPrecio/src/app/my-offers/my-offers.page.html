@@ -8,29 +8,24 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list class="product-list">
-
-    <ion-item lines="none">
-      <ion-thumbnail slot="start">
-        <img src="../../assets/products/product1.jpg" />
-      </ion-thumbnail>
-      <ion-label>
-        <h2>Especias por kilo</h2>
-        <p>Bulnes 342, Temuco</p>
-        <p class="price">$2.500</p>
-      </ion-label>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-thumbnail slot="start">
-        <img src="../../assets/products/product2.jpg" />
-      </ion-thumbnail>
-      <ion-label>
-        <h2>Sandwichs baratos</h2>
-        <p>Javiera Carrera 131, Temuco</p>
-        <p class="price">$2.000</p>
-      </ion-label>
-    </ion-item>
-
-  </ion-list>
+<ion-list class="product-list">
+  <ion-item *ngFor="let offer of offers" lines="none">
+    <ion-thumbnail slot="start">
+      <img [src]="offer.image" />
+    </ion-thumbnail>
+    <ion-label>
+      <h2>{{ offer.title }}</h2>
+      <p>{{ offer.direction }}</p>
+      <p class="price">${{ offer.price }}</p>
+    </ion-label>
+    <ion-button
+      fill="clear"
+      slot="end"
+      color="danger"
+      (click)="deleteOffer(offer.num_offer)"
+    >
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-list>
 </ion-content>

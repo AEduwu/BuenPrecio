@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 import { GeoService } from '../geo-service.service';
+import { DbserviceService } from '../dbservice.service';
 
 @Component({
   selector: 'app-add-product',
@@ -22,7 +23,9 @@ export class AddProductPage {
 
   imagePreview: string | ArrayBuffer | null = null;
 
-  constructor(private alertController: AlertController, private geoService: GeoService) {}
+  constructor(private alertController: AlertController, 
+              private geoService: GeoService, 
+              private dbService: DbserviceService) {}
 
   async takePicture() {
     const image = await Camera.getPhoto({
@@ -58,19 +61,33 @@ async getLocation() {
   }
 }
 
-  async saveProduct() {
-    const { name, price, address, description, image } = this.newProduct;
+async saveProduct() {
+  const { name, price, address, description, image } = this.newProduct;
+  const user = this.dbService.getCurrentUser();
 
-    if (!name || price == null || !address || !description || !image) {
-      await this.showAlert('Por favor, completa todos los campos e incluye una imagen y la ubicación.');
-      return;
-    }
+  if (!name || price == null || !address || !description || !image) {
+    await this.showAlert('Por favor, completa todos los campos e incluye una imagen y la ubicación.');
+    return;
+  }
 
-    if (price < 0) {
-      await this.showAlert('El precio no puede ser negativo.');
-      return;
-    }
+  if (price < 0) {
+    await this.showAlert('El precio no puede ser negativo.');
+    return;
+  }
 
+  const date = new Date().toISOString(); // formato ISO para la fecha
+
+  const success = await this.dbService.addOffer(
+    name,
+    description,
+    date,
+    address,
+    price,
+    user.email,
+    image
+  );
+
+  if (success) {
     await this.showAlert('Oferta publicada ✅');
 
     this.newProduct = {
@@ -82,7 +99,11 @@ async getLocation() {
       image: ''
     };
     this.imagePreview = null;
+  } else {
+    await this.showAlert('Ocurrió un error al guardar la oferta');
   }
+}
+
 
   async showAlert(message: string) {
     const alert = await this.alertController.create({

@@ -14,77 +14,30 @@
 
 <div class="cards-container">
 
-  <ion-card>
-    <img src="../../assets/products/product1.jpg"/>
-    <ion-card-header>
-      <ion-card-title>Especias por kilo</ion-card-title>
-      <ion-card-subtitle class="price">2.500</ion-card-subtitle>
-      <ion-card-subtitle class="location">Bulnes 342, Temuco</ion-card-subtitle>
-    </ion-card-header>
+<ion-card *ngFor="let offer of offers">
+  <img [src]="offer.image || '../../assets/products/default.jpg'" />
 
-    <ion-card-content class="description">
-      <p>Oferta en especias por kilo, hay comino, orégano y albahaca baratos</p>
-      <p class="time">Publicado hace 30 minutos</p>
-    </ion-card-content>
+  <ion-card-header>
+    <ion-card-title>{{ offer.title }}</ion-card-title>
+    <ion-card-subtitle class="price">{{ offer.price | currency: 'CLP' }}</ion-card-subtitle>
+    <ion-card-subtitle class="location">{{ offer.direction }}</ion-card-subtitle>
+  </ion-card-header>
 
-    <ion-card-content class="likes">
-      <ion-button fill="clear" class="like-button">
-        <ion-icon name="thumbs-up-outline"></ion-icon>
-      </ion-button>
-      <span class="like-count">23</span>
-      <ion-button fill="clear" class="dislike-button">
-        <ion-icon name="thumbs-down-outline"></ion-icon>
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+  <ion-card-content class="description">
+    <p>{{ offer.description }}</p>
+    <p class="time">Publicado el {{ offer.date | date:'short' }}</p>
+  </ion-card-content>
 
-  <ion-card>
-    <img src="../../assets/products/product2.jpg"/>
-    <ion-card-header>
-      <ion-card-title>Sandwichs baratos</ion-card-title>
-      <ion-card-subtitle class="price">2.000</ion-card-subtitle>
-      <ion-card-subtitle class="location">Javiera Carrera 131, Temuco</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content class="description">
-      <p>Es en el puesto que está adentro del local, hay harta variedad.</p>
-      <p class="time">Publicado hace 1 hora</p>
-    </ion-card-content>
-
-    <ion-card-content class="likes">
-      <ion-button fill="clear" class="like-button">
-        <ion-icon name="thumbs-up-outline"></ion-icon>
-      </ion-button>
-      <span class="like-count">2</span>
-      <ion-button fill="clear" class="dislike-button">
-        <ion-icon name="thumbs-down-outline"></ion-icon>
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <img src="../../assets/products/product3.jpg"/>
-    <ion-card-header>
-      <ion-card-title>Conservas en remate</ion-card-title>
-      <ion-card-subtitle class="price">10.000</ion-card-subtitle>
-      <ion-card-subtitle class="location">Pinto 222, Temuco</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content class="description">
-      <p>Hay precio al por mayor</p>
-      <p class="time">Publicado hace 3 horas</p>
-    </ion-card-content>
-
-    <ion-card-content class="likes">
-      <ion-button fill="clear" class="like-button">
-        <ion-icon name="thumbs-up-outline"></ion-icon>
-      </ion-button>
-      <span class="like-count">23</span>
-      <ion-button fill="clear" class="dislike-button">
-        <ion-icon name="thumbs-down-outline"></ion-icon>
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+  <ion-card-content class="likes">
+    <ion-button fill="clear" class="like-button">
+      <ion-icon name="thumbs-up-outline"></ion-icon>
+    </ion-button>
+      <span class="like-count">{{ offer.rank }}</span>
+    <ion-button fill="clear" class="dislike-button">
+      <ion-icon name="thumbs-down-outline"></ion-icon>
+    </ion-button>
+  </ion-card-content>
+</ion-card>
 
 </div>
 

@@ -175,4 +175,50 @@ clearCurrentUser() {
   this.currentUser = null;
 }
 
+
+
+async getAllOffers(): Promise<any[]> {
+  try {
+    const res = await this.dbInstance.executeSql(`SELECT * FROM offer`, []);
+    const offers = [];
+    for (let i = 0; i < res.rows.length; i++) {
+      offers.push(res.rows.item(i));
+    }
+    return offers;
+  } catch (error) {
+    console.error('Error al obtener ofertas:', error);
+    return [];
+  }
+}
+
+async getOffersByUser(email: string): Promise<any[]> {
+  try {
+    const res = await this.dbInstance.executeSql(
+      `SELECT * FROM offer WHERE email_creator = ?`,
+      [email]
+    );
+    const offers: any[] = [];
+    for (let i = 0; i < res.rows.length; i++) {
+      offers.push(res.rows.item(i));
+    }
+    return offers;
+  } catch (error) {
+    console.error('Error al obtener ofertas del usuario:', error);
+    return [];
+  }
+}
+
+async deleteOffer(num_offer: number): Promise<boolean> {
+  try {
+    await this.dbInstance.executeSql(
+      `DELETE FROM offer WHERE num_offer = ?`,
+      [num_offer]
+    );
+    return true;
+  } catch (error) {
+    console.error('Error al eliminar oferta:', error);
+    return false;
+  }
+}
+
 }
