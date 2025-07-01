@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-add-product',
@@ -15,24 +16,12 @@ export class AddProductPage {
     location: '',
     description: '',
     address: '',
-    image: '' 
+    image: ''
   };
 
   imagePreview: string | ArrayBuffer | null = null;
 
   constructor(private alertController: AlertController) {}
-
-  onImageSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-        this.newProduct.image = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
 
   async takePicture() {
     const image = await Camera.getPhoto({
@@ -46,11 +35,22 @@ export class AddProductPage {
     this.newProduct.image = image.dataUrl ?? '';
   }
 
+  async getLocation() {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      const { latitude, longitude } = coordinates.coords;
+      this.newProduct.address = `${latitude}, ${longitude}`;
+    } catch (error) {
+      console.error('Error obteniendo ubicación:', error);
+      await this.showAlert('No se pudo obtener la ubicación. Asegúrate de tener la ubicación activada.');
+    }
+  }
+
   async saveProduct() {
     const { name, price, address, description, image } = this.newProduct;
 
     if (!name || price == null || !address || !description || !image) {
-      await this.showAlert('Por favor, completa todos los campos e incluye una imagen.');
+      await this.showAlert('Por favor, completa todos los campos e incluye una imagen y la ubicación.');
       return;
     }
 

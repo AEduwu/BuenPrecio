@@ -29,8 +29,13 @@
     </ion-item>
 
     <ion-item class="input-item">
-      <ion-label position="floating">Direccion</ion-label>
-      <ion-input [(ngModel)]="newProduct.address" type="text"></ion-input>
+      <ion-label>Ubicación</ion-label>
+      <ion-button expand="block" (click)="getLocation()">Obtener ubicación</ion-button>
+    </ion-item>
+
+    <ion-item *ngIf="newProduct.address">
+      <ion-label>Coordenadas</ion-label>
+      <ion-text>{{ newProduct.address }}</ion-text>
     </ion-item>
 
     <ion-item class="input-item">
